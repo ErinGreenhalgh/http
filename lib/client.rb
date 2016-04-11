@@ -2,13 +2,21 @@ require 'pry'
 
 class Client
 
+  # attr_reader :request_lines
+
+  # def initialize
+  #   @request_lines = []
+  # end
+
   def get_input
     puts "Ready for a request"
-    request_lines = []
-    while line = gets and !line.chomp.empty?
-      request_lines << line.chomp
-    end
-    request_lines
+    if request_lines = []
+      while line = gets and !line.chomp.empty?
+        request_lines << line.chomp
+      end
+    else
+      request_lines.inspect
+    end 
   end
 
 
