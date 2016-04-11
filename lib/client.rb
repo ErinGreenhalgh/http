@@ -1,3 +1,5 @@
+require 'pry'
+
 class Client
 
   def get_input
@@ -6,9 +8,13 @@ class Client
     while line = gets and !line.chomp.empty?
       request_lines << line.chomp
     end
+    request_lines
   end
 
-  # def method_name
-  #
-  # end
+
+  def confirm_request
+    puts "Got this request:"
+    get_input.inspect
+  end
+
 end
