@@ -10,7 +10,7 @@ class Server
     @port = port
     @counter = 0
   end
-
+  # 
   # def create_client
   #   @tcp_server.accept
   # end
