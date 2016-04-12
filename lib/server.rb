@@ -9,6 +9,8 @@ class Server
     @tcp_server = TCPServer.new(port=9292)
     @port = port
     @counter = 0
+    # @client = @tcp_server.accept
+    @request_lines = []
   end
   #
   # def create_client
@@ -21,16 +23,16 @@ class Server
       @client = @tcp_server.accept
 
       puts "Ready for a request"
-      request_lines = []
+      # request_lines = []
 
       while line = client.gets and !line.chomp.empty?
-        request_lines << line.chomp
+        @request_lines << line.chomp
       end
 
       @counter +=1
       # client.puts "Hello World(#{@counter/2})"
       # puts "Got this request:"
-      request_lines.inspect
+      @request_lines.inspect
       respond
       @client.close
     end
@@ -56,9 +58,9 @@ class Server
   end
 
   def format_first_request_line
-    #don't have a way to access request_lines 
+    #don't have a way to access request_lines
     hash = {}
-    first_line = request_lines[0].split(" ")
+    first_line = @request_lines[0].split(" ")
     #find first line the the array, split it
     hash["Verb"] = first_line[0] #GET
     hash["Path"] = first_line[1] # /
