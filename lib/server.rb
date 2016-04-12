@@ -39,7 +39,7 @@ class Server
   def format_response
     response = "<pre>" + "Hello World  (#{@counter/2})\n" + "</pre>"
     # response = "<pre>" + request_lines.join("\n") + "</pre>"
-    output = "<html><head></head><body>#{response}</body></html>"
+    output = "<html><head><title></title></head><body>#{response}</body></html>"
   end
 
   def headers
@@ -54,6 +54,4 @@ class Server
     @client.puts headers
     @client.puts format_response
   end
-
-
 end
