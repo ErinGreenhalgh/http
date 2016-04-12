@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/server'
+require 'pry'
 
 class ServerTest < Minitest::Test
 
@@ -9,14 +10,17 @@ class ServerTest < Minitest::Test
     assert_equal 9292, server.port
   end
 
-  def test_it_can_create_a_new_client
+  def test_it_can_receive_a_request
     server = Server.new
-    # assert_equal  ,
+    assert nil, server.receive_request #it received it
+    #if the request_lines array has something in it,
+    #it has received a request
   end
 
-  def test_it_can_receive_a_request
-    skip
-    server = Server.new
+  def test_it_can_confirm_request
+  end
+
+  def test_it_can_send_response
   end
 
 end
