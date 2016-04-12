@@ -3,7 +3,7 @@ require 'pry'
 
 class Server
 
-  attr_reader :port
+  attr_reader :port, :client
 
   def initialize(port=9292)
     @tcp_server = TCPServer.new(port=9292)
@@ -18,7 +18,7 @@ class Server
   def receive_request
     loop do
 
-      client = @tcp_server.accept
+      @client = @tcp_server.accept
 
       puts "Ready for a request"
       request_lines = []
@@ -27,17 +27,18 @@ class Server
         request_lines << line.chomp
       end
 
-      request_lines = ["Hello World(#{@counter/2})"]
       @counter +=1
       # client.puts "Hello World(#{@counter/2})"
       # puts "Got this request:"
       request_lines.inspect
-      client.close
+      respond
+      @client.close
     end
   end
 
   def format_response
-    response = "<pre>" + request_lines.join("\n") + "</pre>"
+    response = "<pre>" + "Hello World  (#{@counter/2})\n" + "</pre>"
+    # response = "<pre>" + request_lines.join("\n") + "</pre>"
     output = "<html><head></head><body>#{response}</body></html>"
   end
 
@@ -46,12 +47,12 @@ class Server
     "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
     "server: ruby",
     "content-type: text/html; charset=iso-8859-1",
-    "content-length: #{format_output.length}\r\n\r\n"].join("\r\n")
+    "content-length: #{format_response.length}\r\n\r\n"].join("\r\n")
   end
 
   def respond
-    puts headers
-    puts output
+    @client.puts headers
+    @client.puts format_response
   end
 
 
