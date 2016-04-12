@@ -34,7 +34,8 @@ class ServerTest < Minitest::Test
   end
 
   def test_it_can_format_first_request_line
-    assert_equal { "Verb" => "GET", "Path" => "/", "Protocol" => "HTTP/1.1"},
+    assert_equal 12, 
+    # assert_equal { "Verb" => "GET", "Path" => "/", "Protocol" => "HTTP/1.1"},
     server.format_first_request_line
   end
 

@@ -9,8 +9,8 @@ class Server
     @tcp_server = TCPServer.new(port=9292)
     @port = port
     @counter = 0
-    # @client = @tcp_server.accept
     @request_lines = []
+    receive_request
   end
   #
   # def create_client
