@@ -27,9 +27,10 @@ class Server
         request_lines << line.chomp
       end
 
+      request_lines = ["Hello World(#{@counter/2})"]
       @counter +=1
-      client.puts "Hello World(#{@counter/2})"
-      puts "Got this request:"
+      # client.puts "Hello World(#{@counter/2})"
+      # puts "Got this request:"
       request_lines.inspect
       client.close
     end
@@ -48,30 +49,10 @@ class Server
     "content-length: #{format_output.length}\r\n\r\n"].join("\r\n")
   end
 
-  def format_response
-    "<pre>" + request_lines.join("\n") + "</pre>"
+  def respond
+    puts headers
+    puts output
   end
 
-  def format_output
-    "<html><head></head><body>#{format_response}</body></html>"
-  end
-
-  puts "Sending response."
-
-
-  #formats the response into html
-  # headers = ["http/1.1 200 ok",
-  #           "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
-  #           "server: ruby",
-  #           "content-type: text/html; charset=iso-8859-1",
-  #           "content-length: #{output.length}\r\n\r\n"].join("\r\n")
-  #           #output.length = the number
-  # client.puts headers
-  # client.puts output
-  #
-  # puts ["Wrote this response:", headers, output].join("\n")
-  # client.close
-  # #close the server object after it it has given its reponse
-  # puts "\nResponse complete, exiting."
 
 end
