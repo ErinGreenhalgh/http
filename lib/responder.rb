@@ -1,4 +1,5 @@
 require './lib/server'
+require 'pry'
 
 class Responder
 
@@ -13,8 +14,10 @@ class Responder
 
   def format_response
     @counter += 1
+    # @counter += 1 unless @request_lines[0].include?("favicon")
     response = "<pre>" + "Hello World (#{@counter/2})\n" + "</pre>"
     # response = "<pre>" + request_lines.join("\n") + "</pre>"
+    # binding.pry
     output = "<html><head></head><body>#{response}</body></html>"
   end
 

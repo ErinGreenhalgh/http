@@ -27,6 +27,7 @@ class Server
       @request_lines.inspect
       responder.give_response(@client)
       @client.close
+
     end
   end
 
