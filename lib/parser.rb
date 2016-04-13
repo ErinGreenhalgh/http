@@ -4,31 +4,36 @@ class Parser
     @request_lines = request_lines
   end
 
-  def get_hash_of_request_lines
+  def get_first_line
     @request_lines.shift
+  end
+
+  def get_hash_of_request_lines
+    get_first_line
     @request_lines.map do |line|
       line.split(": ")
     end.to_h
   end
 
   def parse_first_line
-    first_line = @request_lines[0].split(" ")
-    verb = first_line[0]
-    path = first_line[1]
-    protocol = first_line[2]
-    {"Verb" => verb, "Path" => path, "Protocol" => protocol}
+    get_first_line.split(" ")
+    verb = get_first_line[0]
+    path = get_first_line[1]
+    protocol = get_first_line[2]
+    @first_line = {"Verb" => verb, "Path" => path, "Protocol" => protocol}
   end
 
   def get_verb
-    parse_first_line["Verb"]
+    
+    @first_line["Verb"]
   end
 
   def get_path
-    parse_first_line["Path"]
+    @first_line["Path"]
   end
 
   def get_protocol
-    parse_first_line["Protocol"]
+    @first_line["Protocol"]
   end
 
   def get_host
@@ -36,7 +41,7 @@ class Parser
   end
 
   def get_port
-    get_hash_of_request_lines["Host"][-4..-1]
+    get_hash_of_request_lines["Host"][10..-1]
   end
 
   def get_origin
@@ -48,6 +53,7 @@ class Parser
   end
 
   def parse_response
+    parse_first_line
     "Verb: #{get_verb}
     Path: #{get_path}
     Protocol: #{get_protocol}
