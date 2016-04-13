@@ -2,25 +2,25 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/responder'
 
-class ResponderTest < Minintest::Test
+class ResponderTest < Minitest::Test
 
   def setup
-    responder = Responder.new
+    @responder = Responder.new
   end
 
   def test_it_can_format_the_response
-    assert_equal "<html><head></head><body>Hello World (0)</body></html>",
+    responder = Responder.new
+    assert_equal "<html><head></head><body><pre>Hello World (0)\n</pre>" +
+    "</body></html>",
     responder.format_response
   end
 
   def test_it_can_give_the_headers
-    skip
-    assert_equal
-    "http/1.1 200 ok
-    date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}
-    server: ruby
-    content-type: text/html; charset=iso-8859-1
-    content-length: 123", responder.headers
+    assert_equal "http/1.1 200 ok\r
+    date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}\r
+    server: ruby\r
+    content-type: text/html; charset=iso-8859-1\r
+    content-length: 66\r\n\r", @responder.headers
   end
 
   def test_it_can_give_response

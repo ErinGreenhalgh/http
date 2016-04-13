@@ -13,7 +13,7 @@ class Responder
 
   def format_response
     @counter += 1
-    response = "<pre>" + "Hello World  (#{@counter/2})\n" + "</pre>"
+    response = "<pre>" + "Hello World (#{@counter/2})\n" + "</pre>"
     # response = "<pre>" + request_lines.join("\n") + "</pre>"
     output = "<html><head></head><body>#{response}</body></html>"
   end
