@@ -18,6 +18,21 @@ class ParserTest < Minitest::Test
     assert_equal lines, parser.get_hash_of_request_lines
   end
 
+  def test_it_can_get_the_verb
+    parser = Parser.new(sample_lines)
+    assert_equal "GET", parser.get_verb
+  end
+
+  def test_it_can_get_the_path
+    parser = Parser.new(sample_lines)
+    assert_equal "/", parser.get_path
+  end
+
+  def test_it_can_get_the_protocol
+    parser = Parser.new(sample_lines)
+    assert_equal "HTTP/1.1", parser.get_protocol
+  end
+
   def test_it_can_get_the_host
     parser = Parser.new(sample_lines)
     assert_equal "127.0.0.1", parser.get_host
@@ -36,6 +51,17 @@ class ParserTest < Minitest::Test
   def test_it_can_get_the_accept_data
     parser = Parser.new(sample_lines)
     assert_equal "text/html", parser.get_accept
+  end
+
+  def test_it_can_parse_the_response
+    parser = Parser.new(sample_lines)
+    assert_equal "Verb: GET
+      Path: /
+      Protocol: HTTP/1.1
+      Host: 127.0.0.1
+      Port: 9292
+      Origin: 127.0.0.1
+      Accept: text/html", parser.parse_response
   end
 
   def sample_lines
