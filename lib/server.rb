@@ -26,6 +26,7 @@ class Server
 
       @request_lines.inspect
       responder.give_response(@client)
+      responser.format_first_request_line(@request_lines)
       @client.close
 
     end

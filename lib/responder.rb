@@ -29,10 +29,10 @@ class Responder
     "content-length: #{format_response.length}\r\n\r\n"].join("\r\n")
   end
 
-  def format_first_request_line
+  def format_first_request_line(request_lines)
     #don't have a way to access request_lines
     hash = {}
-    first_line = @request_lines[0].split(" ")
+    first_line = request_lines[0].split(" ")
     #find first line the the array, split it
     hash["Verb"] = first_line[0] #GET
     hash["Path"] = first_line[1] # /
