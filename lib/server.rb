@@ -11,6 +11,7 @@ class Server
     @port = port
     @request_lines = []
     @responder = Responder.new
+    @counter = 0
     listen
   end
 
