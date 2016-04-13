@@ -25,8 +25,9 @@ class Server
         end
 
       @request_lines.inspect
+      binding.pry
       responder.give_response(@client)
-      responser.format_first_request_line(@request_lines)
+      # responser.format_first_request_line(@request_lines)
       @client.close
 
     end
