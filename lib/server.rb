@@ -1,5 +1,6 @@
 require 'socket'
 require './lib/responder'
+require './lib/parser'
 require 'pry'
 
 class Server
@@ -9,9 +10,9 @@ class Server
   def initialize
     @tcp_server = TCPServer.new(port=9292)
     @port = port
-    @request_lines = []
     @responder = Responder.new
-    @counter = 0
+    @parser = Parser.new #(request_lines)
+    # @counter = 0
     listen
   end
 
@@ -19,14 +20,22 @@ class Server
     loop do
 
       @client = @tcp_server.accept
+      request_lines = []
 
       while line = client.gets and !line.chomp.empty?
-        @request_lines << line.chomp
-        end
+        request_lines << line.chomp
+      end
 
-      @request_lines.inspect
-      responder.give_response(@client)
-      responser.format_first_request_line(@request_lines)
+
+
+      # @request_lines.inspect
+      # binding.pry
+      responder.give_response(@client, @parser.parse_response(request_lines))
+      # responser.format_first_request_line(@request_lines)
+      if @parser.shutdown
+        break
+      end
+
       @client.close
 
     end
