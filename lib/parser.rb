@@ -1,12 +1,21 @@
+require 'pry'
+
 class Parser
 
   def initialize(request_lines = [])
     @request_lines = request_lines
     @request_hash = convert_lines_to_hash
+    @counter = 0
   end
 
   def parse_response
-    # binding.pry
+    case get_path
+    when "/" then root_response
+    when "/hello" then "YO"#hello_response
+    end
+  end
+
+  def root_response
     "Verb: #{get_verb}\n"\
     "Path: #{get_path}\n"\
     "Protocol: #{get_protocol}\n"\
@@ -16,13 +25,16 @@ class Parser
     "Accept: #{get_accept}"
   end
 
+  def hello_response
+    @counter += 1
+    "Hello World #{@counter}"
+  end
+
   def convert_lines_to_hash
     thing = @request_lines[1..-1]
     thing.map do |line|
       line.split(": ")
     end.to_h
-
-    # binding.pry
   end
 
   def parse_first_line

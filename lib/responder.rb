@@ -7,9 +7,10 @@ class Responder
     @counter = 0
   end
 
-  def give_response(client)
+  def give_response(client, parsed_response)
+    @reply = format_response(parsed_response)
     client.puts headers
-    client.puts format_response
+    client.puts @reply
   end
 
   # def format_response
@@ -21,10 +22,10 @@ class Responder
   #   output = "<html><head></head><body>#{response}</body></html>"
   # end
 
-  def format_response
+  def format_response(parsed_response)
     @counter += 1
     # @counter += 1 unless @request_lines[0].include?("favicon")
-    response = "<pre>" + "Hello World (#{@counter/2})\n" + "</pre>"
+    response = "<pre>" + "#{parsed_response}\n" + "</pre>"
     # response = "<pre>" + request_lines.join("\n") + "</pre>"
     # binding.pry
     output = "<html><head></head><body>#{response}</body></html>"
@@ -35,7 +36,7 @@ class Responder
     "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
     "server: ruby",
     "content-type: text/html; charset=iso-8859-1",
-    "content-length: #{format_response.length}\r\n\r\n"].join("\r\n")
+    "content-length: #{@reply.length}\r\n\r\n"].join("\r\n")
   end
 
   # def format_first_request_line(request_lines)
