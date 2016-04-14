@@ -12,13 +12,13 @@ class Parser
 
   def parse_response(request_lines)
     @request_lines = request_lines
-    @request_hash = convert_lines_to_hash
+    @request_hash = convert_lines_to_hash(@request_lines)
 
     case get_path
     when "/" then root_response
     when "/hello" then hello_response
     when "/datetime" then date_time_response
-    when [/\A\/word_search/] then word_search_response
+    # when [/\A\/word_search/] then word_search_response
     when "/shutdown" then shutdown_response
     else puts "#{get_path} is not a valid path"
     end
@@ -63,9 +63,9 @@ class Parser
   end
 
 
-  def convert_lines_to_hash
-    thing = @request_lines[1..-1]
-    thing.map do |line|
+  def convert_lines_to_hash(request_lines)
+    lines = @request_lines[1..-1]
+    lines.map do |line|
       line.split(": ")
     end.to_h
   end
