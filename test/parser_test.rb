@@ -67,7 +67,7 @@ Accept: text/html", parser.parse_response
   end
 
   def sample_lines
-    ["GET / HTTP/1.1",
+    ["GET /word_search?word=hello HTTP/1.1",
    "Host: 127.0.0.1:9292",
    "Connection: keep-alive",
    "Cache-Control: max-age=0",

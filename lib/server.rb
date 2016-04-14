@@ -32,9 +32,9 @@ class Server
       # binding.pry
       responder.give_response(@client, @parser.parse_response(request_lines))
       # responser.format_first_request_line(@request_lines)
-
-
-
+      if @parser.shutdown
+        break
+      end
 
       @client.close
 

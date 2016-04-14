@@ -1,11 +1,13 @@
 require 'pry'
 
 class Parser
+  attr_reader :shutdown
 
   def initialize
     # @request_lines = request_lines
     @hello_counter = 0
     @total_requests = 0
+    @shutdown = false
   end
 
   def parse_response(request_lines)
@@ -16,7 +18,9 @@ class Parser
     when "/" then root_response
     when "/hello" then hello_response
     when "/datetime" then date_time_response
-    when"/shutdown" then shutdown_response
+    when [/\A\/word_search/] then word_search_response
+    when "/shutdown" then shutdown_response
+    else puts "#{get_path} is not a valid path"
     end
   end
 
@@ -42,8 +46,19 @@ class Parser
     Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')
   end
 
+  def word_search_response
+    binding.pry
+    @total_requests += 1
+    if dictionary.include?get_path[18..-1]
+      "WORD is a known word"
+    else
+      "WORD is not a known word"
+    end
+  end
+
   def shutdown_response
     @total_requests += 1
+    @shutdown = true
     "Total requests #{@total_requests}"
   end
 
@@ -96,18 +111,11 @@ class Parser
     @request_hash["Accept"]
   end
 
+  def dictionary
+    handle = File.readlines('/usr/share/dict/words')
+    handle.map do |line|
+      line.chomp
+    end
+  end
 
-
-  # def parse_response
-  #   # binding.pry
-  #   "Verb: #{get_verb}"\
-  #   "Path: #{get_path}"\
-  #   "Protocol: #{get_protocol}"\
-  #   "Host: #{get_host}"\
-  #   "Port: #{get_port}"\
-  #   "Origin: #{get_origin}"\
-  #   "Accept: #{get_accept}"
-  # end
-
-  #umbrella method to puts all other method outcomes in the right format
 end
