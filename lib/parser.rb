@@ -46,15 +46,15 @@ class Parser
     Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')
   end
 
-  def word_search_response
-    binding.pry
-    @total_requests += 1
-    if dictionary.include?get_path[18..-1]
-      "WORD is a known word"
-    else
-      "WORD is not a known word"
-    end
-  end
+  # def word_search_response
+  #   binding.pry
+  #   @total_requests += 1
+  #   if dictionary.include?get_path[18..-1]
+  #     "WORD is a known word"
+  #   else
+  #     "WORD is not a known word"
+  #   end
+  # end
 
   def shutdown_response
     @total_requests += 1
@@ -111,11 +111,11 @@ class Parser
     @request_hash["Accept"]
   end
 
-  def dictionary
-    handle = File.readlines('/usr/share/dict/words')
-    handle.map do |line|
-      line.chomp
-    end
-  end
+  # def dictionary
+  #   handle = File.readlines('/usr/share/dict/words')
+  #   handle.map do |line|
+  #     line.chomp
+  #   end
+  # end
 
 end
