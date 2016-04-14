@@ -3,9 +3,9 @@ require 'pry'
 
 class Responder
 
-  def initialize
-    @counter = 0
-  end
+  # def initialize
+  #   @counter = 0
+  # end
 
   def give_response(client, parsed_response)
     @reply = format_response(parsed_response)
@@ -23,7 +23,7 @@ class Responder
   # end
 
   def format_response(parsed_response)
-    @counter += 1
+    # @counter += 1
     # @counter += 1 unless @request_lines[0].include?("favicon")
     response = "<pre>" + "#{parsed_response}\n" + "</pre>"
     # response = "<pre>" + request_lines.join("\n") + "</pre>"

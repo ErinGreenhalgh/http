@@ -2,20 +2,26 @@ require 'pry'
 
 class Parser
 
-  def initialize(request_lines = [])
-    @request_lines = request_lines
-    @request_hash = convert_lines_to_hash
-    @counter = 0
+  def initialize
+    # @request_lines = request_lines
+    @hello_counter = 0
+    @total_requests = 0
   end
 
-  def parse_response
+  def parse_response(request_lines)
+    @request_lines = request_lines
+    @request_hash = convert_lines_to_hash
+
     case get_path
     when "/" then root_response
-    when "/hello" then "YO"#hello_response
+    when "/hello" then hello_response
+    when "/datetime" then date_time_response
+    when"/shutdown" then shutdown_response
     end
   end
 
   def root_response
+    @total_requests += 1
     "Verb: #{get_verb}\n"\
     "Path: #{get_path}\n"\
     "Protocol: #{get_protocol}\n"\
@@ -26,9 +32,21 @@ class Parser
   end
 
   def hello_response
-    @counter += 1
-    "Hello World #{@counter}"
+    @hello_counter += 1
+    @total_requests += 1
+    "Hello World #{@hello_counter}"
   end
+
+  def date_time_response
+    @total_requests += 1
+    Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')
+  end
+
+  def shutdown_response
+    @total_requests += 1
+    "Total requests #{@total_requests}"
+  end
+
 
   def convert_lines_to_hash
     thing = @request_lines[1..-1]

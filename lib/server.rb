@@ -11,7 +11,8 @@ class Server
     @tcp_server = TCPServer.new(port=9292)
     @port = port
     @responder = Responder.new
-    @counter = 0
+    @parser = Parser.new #(request_lines)
+    # @counter = 0
     listen
   end
 
@@ -25,13 +26,16 @@ class Server
         request_lines << line.chomp
       end
 
-      @parser = Parser.new(request_lines)
 
 
       # @request_lines.inspect
       # binding.pry
-      responder.give_response(@client, @parser.parse_response)
+      responder.give_response(@client, @parser.parse_response(request_lines))
       # responser.format_first_request_line(@request_lines)
+
+
+
+
       @client.close
 
     end
