@@ -14,6 +14,7 @@ class Parser
     @request_lines = request_lines
     @request_hash = convert_lines_to_hash
 
+    #send this information only to the router
     if get_path == "/"
       root_response
     elsif get_path == "/hello"
@@ -68,6 +69,13 @@ class Parser
     end
   end
 
+  def dictionary
+    handle = File.readlines('/usr/share/dict/words')
+    handle.map do |line|
+      line.chomp
+    end
+  end
+
   def shutdown_response
     @total_requests += 1
     @shutdown = true
@@ -76,8 +84,8 @@ class Parser
 
 
   def convert_lines_to_hash
-    thing = @request_lines[1..-1]
-    thing.map do |line|
+    lines = @request_lines[1..-1]
+    lines.map do |line|
       line.split(": ")
     end.to_h
   end
@@ -89,11 +97,6 @@ class Parser
     protocol = first_line[2]
     first_line_hash = {"Verb" => verb, "Path" => path, "Protocol" => protocol}
   end
-
-  # def merge_hash
-  #   @request_hash.merge(@first_line_hash)
-  #   binding.pry
-  # end
 
   def get_verb
     parse_first_line["Verb"]
@@ -121,13 +124,6 @@ class Parser
 
   def get_accept
     @request_hash["Accept"]
-  end
-
-  def dictionary
-    handle = File.readlines('/usr/share/dict/words')
-    handle.map do |line|
-      line.chomp
-    end
   end
 
 end
