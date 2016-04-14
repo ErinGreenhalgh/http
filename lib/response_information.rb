@@ -1,5 +1,5 @@
 module ResponseInformation
-
+#have no access to methods in parser
   def get_verb
     parse_first_line["Verb"]
   end

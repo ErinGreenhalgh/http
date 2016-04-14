@@ -26,6 +26,7 @@ class Server
         request_lines << line.chomp
       end
 
+      responder.give_response(@client, @router.determine_path(@parser.parse_response(request_lines)))
       responder.give_response(@client, @parser.parse_response(request_lines))
 
       if @parser.shutdown

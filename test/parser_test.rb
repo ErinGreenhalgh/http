@@ -20,41 +20,6 @@ class ParserTest < Minitest::Test
     assert_equal lines, parser.convert_lines_to_hash
   end
 
-  def test_it_can_get_the_verb
-    parser = Parser.new(sample_lines)
-    assert_equal "GET", parser.get_verb
-  end
-
-  def test_it_can_get_the_path
-    parser = Parser.new(sample_lines)
-    assert_equal "/", parser.get_path
-  end
-
-  def test_it_can_get_the_protocol
-    parser = Parser.new(sample_lines)
-    assert_equal "HTTP/1.1", parser.get_protocol
-  end
-
-  def test_it_can_get_the_host
-    parser = Parser.new(sample_lines)
-    assert_equal "127.0.0.1", parser.get_host
-  end
-
-  def test_it_can_get_the_port
-    parser = Parser.new(sample_lines)
-    assert_equal "9292", parser.get_port
-  end
-
-  def test_it_can_get_the_origin
-    parser = Parser.new(sample_lines)
-    assert_equal "127.0.0.1", parser.get_origin
-  end
-
-  def test_it_can_get_the_accept_data
-    parser = Parser.new(sample_lines)
-    assert_equal "text/html", parser.get_accept
-  end
-
   def test_it_can_parse_the_response
     parser = Parser.new(sample_lines)
     assert_equal "Verb: GET

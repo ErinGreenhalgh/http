@@ -3,7 +3,12 @@ require 'pry'
 
 class Responder
 
-  def give_response(client, parsed_response)
+  def initialize
+    @router = Router.new
+  end
+
+  def give_response(client, response) #parsed_response)
+    @router.dertermine_path(get_path)
     @reply = format_response(parsed_response)
     client.puts headers
     client.puts @reply

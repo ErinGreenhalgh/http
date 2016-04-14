@@ -1,8 +1,21 @@
-class router
+require './lib/response_information'
 
-  def determine_path
+class Router
+  include ResponseInformation
+
+  attr_reader :total_requests
+
+  def initialize
+    # @request_lines = request_lines
+    @hello_counter = 0
+    @total_requests = 0
+    @shutdown = false
+    @responder = Responder.new
+  end
+
+  def determine_path(get_path)
     if get_path == "/"
-      root_response
+      @responder.give_response(client, root_response)
     elsif get_path == "/hello"
       hello_response
     elsif get_path == "/datetime"
@@ -39,7 +52,7 @@ class router
     Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')
   end
 
-  def word_search_response
+  def word_search_response(get_path="/word_search?word=hello")
     @total_requests += 1
     word = get_path.split("=")[1]
     if dictionary.include?(word)
@@ -61,3 +74,4 @@ class router
     @shutdown = true
     "Total requests #{@total_requests}"
   end
+end

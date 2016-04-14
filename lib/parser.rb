@@ -3,12 +3,6 @@ require 'pry'
 class Parser
   attr_reader :shutdown
 
-  def initialize
-    # @request_lines = request_lines
-    @hello_counter = 0
-    @total_requests = 0
-    @shutdown = false
-  end
 
   def parse_response(request_lines)
     @request_lines = request_lines
