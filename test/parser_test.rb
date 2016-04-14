@@ -58,12 +58,12 @@ class ParserTest < Minitest::Test
   def test_it_can_parse_the_response
     parser = Parser.new(sample_lines)
     assert_equal "Verb: GET
-Path: /
-Protocol: HTTP/1.1
-Host: 127.0.0.1
-Port: 9292
-Origin: 127.0.0.1
-Accept: text/html", parser.parse_response
+    Path: /
+    Protocol: HTTP/1.1
+    Host: 127.0.0.1
+    Port: 9292
+    Origin: 127.0.0.1
+    Accept: text/html", parser.parse_response
   end
 
   def sample_lines

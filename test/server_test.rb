@@ -14,6 +14,10 @@ class ServerTest < Minitest::Test
     assert_equal 9292, server.port
   end
 
+  def test_it_shuts_down_when_given_shutdown_path
+
+  end
+
   # def test_it_can_receive_a_request
   #   server = Server.new
   #   assert nil, server.receive_request #it received it
@@ -21,4 +25,4 @@ class ServerTest < Minitest::Test
   #   #it has received a request
   # end
 
-end 
+end
