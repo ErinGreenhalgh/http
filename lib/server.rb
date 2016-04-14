@@ -26,12 +26,8 @@ class Server
         request_lines << line.chomp
       end
 
-
-
-      # @request_lines.inspect
-      # binding.pry
       responder.give_response(@client, @parser.parse_response(request_lines))
-      # responser.format_first_request_line(@request_lines)
+
       if @parser.shutdown
         break
       end

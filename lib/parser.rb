@@ -14,14 +14,26 @@ class Parser
     @request_lines = request_lines
     @request_hash = convert_lines_to_hash
 
-    case get_path
-    when "/" then root_response
-    when "/hello" then hello_response
-    when "/datetime" then date_time_response
-    when [/\A\/word_search/] then word_search_response
-    when "/shutdown" then shutdown_response
-    else puts "#{get_path} is not a valid path"
+    if get_path == "/"
+      root_response
+    elsif get_path == "/hello"
+      hello_response
+    elsif get_path == "/datetime"
+      date_time_response
+    elsif get_path.include?("/word_search")
+      word_search_response
+    elsif get_path == "/shutdown"
+      shutdown_response
+    else
+      puts "#{get_path} is not a valid path"
     end
+    # when "/" then root_response
+    # when "/hello" then hello_response
+    # when "/datetime" then date_time_response
+    # when [/\A\/word_search/] then word_search_response
+    # when "/shutdown" then shutdown_response
+    # else puts "#{get_path} is not a valid path"
+    # end
   end
 
   def root_response
@@ -47,9 +59,9 @@ class Parser
   end
 
   def word_search_response
-    binding.pry
     @total_requests += 1
-    if dictionary.include?get_path[18..-1]
+    word = get_path.split("=")[1]
+    if dictionary.include?(word)
       "WORD is a known word"
     else
       "WORD is not a known word"
