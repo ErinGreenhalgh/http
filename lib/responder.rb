@@ -12,6 +12,15 @@ class Responder
     client.puts format_response
   end
 
+  # def format_response
+  #   @counter += 1
+  #   # @counter += 1 unless @request_lines[0].include?("favicon")
+  #   response = "<pre>" + "Hello World (#{@counter/2})\n" + "</pre>"
+  #   # response = "<pre>" + request_lines.join("\n") + "</pre>"
+  #   # binding.pry
+  #   output = "<html><head></head><body>#{response}</body></html>"
+  # end
+
   def format_response
     @counter += 1
     # @counter += 1 unless @request_lines[0].include?("favicon")

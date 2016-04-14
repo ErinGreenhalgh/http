@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/parser'
+require 'pry'
 
 class ParserTest < Minitest::Test
 
@@ -15,7 +16,8 @@ class ParserTest < Minitest::Test
  "User-Agent"=>"Mozilla/5.0",
  "Accept-Encoding"=>"gzip, deflate, sdch",
  "Accept-Language"=>"en-US,en;q=0.8"}
-    assert_equal lines, parser.get_hash_of_request_lines
+
+    assert_equal lines, parser.convert_lines_to_hash
   end
 
   def test_it_can_get_the_verb
@@ -56,12 +58,12 @@ class ParserTest < Minitest::Test
   def test_it_can_parse_the_response
     parser = Parser.new(sample_lines)
     assert_equal "Verb: GET
-      Path: /
-      Protocol: HTTP/1.1
-      Host: 127.0.0.1
-      Port: 9292
-      Origin: 127.0.0.1
-      Accept: text/html", parser.parse_response
+Path: /
+Protocol: HTTP/1.1
+Host: 127.0.0.1
+Port: 9292
+Origin: 127.0.0.1
+Accept: text/html", parser.parse_response
   end
 
   def sample_lines

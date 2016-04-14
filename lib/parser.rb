@@ -2,13 +2,27 @@ class Parser
 
   def initialize(request_lines = [])
     @request_lines = request_lines
+    @request_hash = convert_lines_to_hash
   end
 
-  def get_hash_of_request_lines
-    @request_lines.shift
-    @request_lines.map do |line|
+  def parse_response
+    # binding.pry
+    "Verb: #{get_verb}\n"\
+    "Path: #{get_path}\n"\
+    "Protocol: #{get_protocol}\n"\
+    "Host: #{get_host}\n"\
+    "Port: #{get_port}\n"\
+    "Origin: #{get_origin}\n"\
+    "Accept: #{get_accept}"
+  end
+
+  def convert_lines_to_hash
+    thing = @request_lines[1..-1]
+    thing.map do |line|
       line.split(": ")
     end.to_h
+
+    # binding.pry
   end
 
   def parse_first_line
@@ -16,8 +30,13 @@ class Parser
     verb = first_line[0]
     path = first_line[1]
     protocol = first_line[2]
-    {"Verb" => verb, "Path" => path, "Protocol" => protocol}
+    first_line_hash = {"Verb" => verb, "Path" => path, "Protocol" => protocol}
   end
+
+  # def merge_hash
+  #   @request_hash.merge(@first_line_hash)
+  #   binding.pry
+  # end
 
   def get_verb
     parse_first_line["Verb"]
@@ -32,31 +51,33 @@ class Parser
   end
 
   def get_host
-    get_hash_of_request_lines["Host"][0..8]
+    @request_hash["Host"][0..8]
   end
 
   def get_port
-    get_hash_of_request_lines["Host"][-4..-1]
+    @request_hash["Host"][-4..-1]
   end
 
   def get_origin
-    get_hash_of_request_lines["Host"][0..8]
+    @request_hash["Host"][0..8]
   end
 
   def get_accept
-    get_hash_of_request_lines["Accept"]
+    @request_hash["Accept"]
   end
 
-  def parse_response
-    "Verb: #{get_verb}
-    Path: #{get_path}
-    Protocol: #{get_protocol}
-    Host: #{get_host}
-    Port: #{get_port}
-    Origin: #{get_origin}
-    Accept: #{get_accept}"
-  end
 
+
+  # def parse_response
+  #   # binding.pry
+  #   "Verb: #{get_verb}"\
+  #   "Path: #{get_path}"\
+  #   "Protocol: #{get_protocol}"\
+  #   "Host: #{get_host}"\
+  #   "Port: #{get_port}"\
+  #   "Origin: #{get_origin}"\
+  #   "Accept: #{get_accept}"
+  # end
 
   #umbrella method to puts all other method outcomes in the right format
 end
