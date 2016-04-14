@@ -14,11 +14,4 @@ class ServerTest < Minitest::Test
     assert_equal 9292, server.port
   end
 
-  # def test_it_can_receive_a_request
-  #   server = Server.new
-  #   assert nil, server.receive_request #it received it
-  #   #if the request_lines array has something in it,
-  #   #it has received a request
-  # end
-
-end 
+end

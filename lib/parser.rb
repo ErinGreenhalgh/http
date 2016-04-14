@@ -76,8 +76,8 @@ class Parser
 
 
   def convert_lines_to_hash
-    thing = @request_lines[1..-1]
-    thing.map do |line|
+    lines = @request_lines[1..-1]
+    lines.map do |line|
       line.split(": ")
     end.to_h
   end
