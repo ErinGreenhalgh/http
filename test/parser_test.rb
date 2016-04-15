@@ -5,7 +5,6 @@ require 'pry'
 
 class ParserTest < Minitest::Test
 
-  #edge case: request lines = nil
   def test_it_can_create_a_hash_from_request_lines
     parser = Parser.new
     lines = {"Host"=>"127.0.0.1:9292",

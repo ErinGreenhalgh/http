@@ -11,8 +11,7 @@ class Server
     @tcp_server = TCPServer.new(port=9292)
     @port = port
     @responder = Responder.new
-    @parser = Parser.new #(request_lines)
-    # @counter = 0
+    @parser = Parser.new 
     listen
   end
 
