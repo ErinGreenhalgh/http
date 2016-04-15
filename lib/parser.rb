@@ -15,14 +15,20 @@ class Parser
     @request_hash = convert_lines_to_hash
 
 
-    case get_path
-    when "/" then root_response
-    when "/hello" then hello_response
-    when "/datetime" then date_time_response
-    # when [/\A\/word_search/] then word_search_response
-    when "/shutdown" then shutdown_response
-    else puts "#{get_path} is not a valid path"
+    if get_path == "/"
+      root_response
+    elsif get_path == "/hello"
+      hello_response
+    elsif get_path == "/datetime"
+      date_time_response
+    elsif get_path.include?("/word_search")
+      word_search_response
+    elsif get_path == "/shutdown"
+      shutdown_response
+    else
+      puts "#{get_path} is not a valid path"
     end
+
   end
 
   def root_response
@@ -47,15 +53,22 @@ class Parser
     Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')
   end
 
-  # def word_search_response
-  #   binding.pry
-  #   @total_requests += 1
-  #   if dictionary.include?get_path[18..-1]
-  #     "WORD is a known word"
-  #   else
-  #     "WORD is not a known word"
-  #   end
-  # end
+  def word_search_response
+    @total_requests += 1
+    word = get_path.split("=")[1]
+    if dictionary.include?word
+      "WORD is a known word"
+    else
+      "WORD is not a known word"
+    end
+  end
+
+  def dictionary
+    handle = File.readlines('/usr/share/dict/words')
+    handle.map do |line|
+      line.chomp
+    end
+  end
 
   def shutdown_response
     @total_requests += 1
@@ -72,6 +85,7 @@ class Parser
     end.to_h
   end
 
+
   def parse_first_line
     first_line = @request_lines[0].split(" ")
     verb = first_line[0]
@@ -80,11 +94,6 @@ class Parser
     first_line_hash = {"Verb" => verb, "Path" => path, "Protocol" => protocol}
     # binding.pry
   end
-
-  # def merge_hash
-  #   @request_hash.merge(@first_line_hash)
-  #   binding.pry
-  # end
 
   def get_verb
     parse_first_line["Verb"]
@@ -115,11 +124,5 @@ class Parser
     @request_hash["Accept"]
   end
 
-  # def dictionary
-  #   handle = File.readlines('/usr/share/dict/words')
-  #   handle.map do |line|
-  #     line.chomp
-  #   end
-  # end
 
 end
