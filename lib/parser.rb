@@ -4,7 +4,6 @@ class Parser
   attr_reader :shutdown
 
   def initialize
-    # @request_lines = request_lines
     @hello_counter = 0
     @total_requests = 0
     @shutdown = false
@@ -79,7 +78,6 @@ class Parser
 
   def convert_lines_to_hash
     lines = @request_lines[1..-1]
-    # binding.pry
     lines.map do |line|
       line.split(": ")
     end.to_h
@@ -92,7 +90,6 @@ class Parser
     path = first_line[1]
     protocol = first_line[2]
     first_line_hash = {"Verb" => verb, "Path" => path, "Protocol" => protocol}
-    # binding.pry
   end
 
   def get_verb
@@ -112,7 +109,6 @@ class Parser
   end
 
   def get_port
-    # binding.pry
     @request_hash["Host"][-4..-1]
   end
 
@@ -123,6 +119,4 @@ class Parser
   def get_accept
     @request_hash["Accept"]
   end
-
-
 end
