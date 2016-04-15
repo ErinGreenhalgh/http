@@ -4,7 +4,6 @@ class Parser
   attr_reader :shutdown
 
   def initialize
-    # @request_lines = request_lines
     @hello_counter = 0
     @total_requests = 0
     @shutdown = false
@@ -27,13 +26,6 @@ class Parser
     else
       puts "#{get_path} is not a valid path"
     end
-    # when "/" then root_response
-    # when "/hello" then hello_response
-    # when "/datetime" then date_time_response
-    # when [/\A\/word_search/] then word_search_response
-    # when "/shutdown" then shutdown_response
-    # else puts "#{get_path} is not a valid path"
-    # end
   end
 
   def root_response
@@ -68,6 +60,13 @@ class Parser
     end
   end
 
+  def dictionary
+    handle = File.readlines('/usr/share/dict/words')
+    handle.map do |line|
+      line.chomp
+    end
+  end
+
   def shutdown_response
     @total_requests += 1
     @shutdown = true
@@ -76,11 +75,12 @@ class Parser
 
 
   def convert_lines_to_hash
-    thing = @request_lines[1..-1]
-    thing.map do |line|
+    lines = @request_lines[1..-1]
+    lines.map do |line|
       line.split(": ")
     end.to_h
   end
+
 
   def parse_first_line
     first_line = @request_lines[0].split(" ")
@@ -89,11 +89,6 @@ class Parser
     protocol = first_line[2]
     first_line_hash = {"Verb" => verb, "Path" => path, "Protocol" => protocol}
   end
-
-  # def merge_hash
-  #   @request_hash.merge(@first_line_hash)
-  #   binding.pry
-  # end
 
   def get_verb
     parse_first_line["Verb"]
@@ -122,12 +117,4 @@ class Parser
   def get_accept
     @request_hash["Accept"]
   end
-
-  def dictionary
-    handle = File.readlines('/usr/share/dict/words')
-    handle.map do |line|
-      line.chomp
-    end
-  end
-
 end
