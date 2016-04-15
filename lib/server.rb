@@ -26,11 +26,11 @@ class Server
         request_lines << line.chomp
       end
 
-      parsed = parser.parse_response(request_lines)
-      routed = router.determine_response(parsed)
+      parsed = @parser.parse_response(request_lines)
+      routed = @router.determine_response(parsed)
       responder.give_response(@client, routed)
 
-      if router.shutdown
+      if @router.shutdown
         break
       end
 
