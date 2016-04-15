@@ -13,7 +13,6 @@ class Parser
     @request_lines = request_lines
     @request_hash = convert_lines_to_hash
 
-
     if get_path == "/"
       root_response
     elsif get_path == "/hello"
@@ -27,7 +26,6 @@ class Parser
     else
       puts "#{get_path} is not a valid path"
     end
-
   end
 
   def root_response
@@ -55,7 +53,7 @@ class Parser
   def word_search_response
     @total_requests += 1
     word = get_path.split("=")[1]
-    if dictionary.include?word
+    if dictionary.include?(word)
       "WORD is a known word"
     else
       "WORD is not a known word"
