@@ -10,7 +10,8 @@ class Router
     @shutdown = false
   end
 
-  def determine_response
+  def determine_response(request_lines)
+    @parser.parse_response(request_lines)
     if @parser.get_path == "/"
       root_response
     elsif @parser.get_path == "/hello"

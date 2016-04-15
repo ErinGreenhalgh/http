@@ -1,17 +1,18 @@
 require 'socket'
-require './lib/responder'
 require './lib/parser'
+require './lib/router'
+require './lib/responder'
 require 'pry'
 
 class Server
 
-  attr_reader :port, :client, :request_lines, :counter, :responder
+  attr_reader :client, :parser, :router, :responder
 
   def initialize
     @tcp_server = TCPServer.new(port=9292)
-    @port = port
+    @parser = Parser.new
+    @router = Router.new
     @responder = Responder.new
-    @parser = Parser.new 
     listen
   end
 
@@ -25,9 +26,11 @@ class Server
         request_lines << line.chomp
       end
 
-      responder.give_response(@client, @parser.parse_response(request_lines))
+      parsed = parser.parse_response(request_lines)
+      routed = router.determine_response(parsed)
+      responder.give_response(@client, routed)
 
-      if @parser.shutdown
+      if router.shutdown
         break
       end
 
