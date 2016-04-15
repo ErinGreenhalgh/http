@@ -12,7 +12,8 @@ class Parser
 
   def parse_response(request_lines)
     @request_lines = request_lines
-    @request_hash = convert_lines_to_hash(@request_lines)
+    @request_hash = convert_lines_to_hash
+
 
     case get_path
     when "/" then root_response
@@ -63,8 +64,9 @@ class Parser
   end
 
 
-  def convert_lines_to_hash(request_lines)
+  def convert_lines_to_hash
     lines = @request_lines[1..-1]
+    # binding.pry
     lines.map do |line|
       line.split(": ")
     end.to_h
@@ -76,6 +78,7 @@ class Parser
     path = first_line[1]
     protocol = first_line[2]
     first_line_hash = {"Verb" => verb, "Path" => path, "Protocol" => protocol}
+    # binding.pry
   end
 
   # def merge_hash
@@ -100,6 +103,7 @@ class Parser
   end
 
   def get_port
+    # binding.pry
     @request_hash["Host"][-4..-1]
   end
 
