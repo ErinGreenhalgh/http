@@ -5,14 +5,12 @@ require 'pry'
 
 class Server
 
-  attr_reader :port, :client, :request_lines, :counter, :responder
+  attr_reader :client, :responder
 
   def initialize
     @tcp_server = TCPServer.new(port=9292)
-    @port = port
     @responder = Responder.new
-    @parser = Parser.new #(request_lines)
-    # @counter = 0
+    @parser = Parser.new
     listen
   end
 
