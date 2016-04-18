@@ -10,39 +10,26 @@ require 'faraday'
 require 'pry'
 
 class ServerTest < Minitest::Test
-  def setup
-    @server = Faraday.new(:url => 'http://127.0.0.1:9292')
+  def test_it_can_run
+
   end
 
-  def test_faraday_is_working
-    response = @server.get 'http://127.0.0.1:9292'
-    assert_equal 144, response.body.length
+  def test_it_can_get_information_from_the_parser
   end
 
-  def test_it_can_show_hello
-    response = @server.get 'http://127.0.0.1:9292/hello'
-    assert response.body.include?("Hello World")
+  def test_it_can_get_information_from_the_responser
+
   end
 
-  def test_it_can_output_datetime
-    response = @server.get 'http://127.0.0.1:9292/datetime'
-    assert response.body.include?("2016")
+  def test_it_can_get_information_from_the_router
+
   end
 
-  def test_it_has_newlines_to_break_up
-    response = @server.get 'http://127.0.0.1:9292'
-    assert response.body.include?("\n")
+  def test_it_can_get_information_from_router
+
   end
 
-  def test_it_can_change_output
-    response = @server.get 'http://127.0.0.1:9292'
-    assert_equal String, response.body.class
-  end
+  def test_it_can_send_a_response
 
-  def test_it_will_shutdown
-    skip
-    response = @server.get 'http://127.0.0.1:9292/shutdown'
-    assert response.body.include?("Total requests")
   end
-
 end
