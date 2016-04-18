@@ -10,11 +10,22 @@ require 'faraday'
 require 'pry'
 
 class ServerTest < Minitest::Test
-  def test_it_can_run
+  def setup
+    @server = Faraday.new(:url => 'http://127.0.0.1:9292')
+  end
 
+  # def test_faraday_is_working
+  #   response = @server.get 'http://127.0.0.1:9292'
+  #   assert_equal 144, response.body.length
+  # end
+
+  def test_it_can_get_request_lines
+    response = @server.get 'http://127.0.0.1:9292'
+    assert_equal 144, response.body.length
   end
 
   def test_it_can_get_information_from_the_parser
+
   end
 
   def test_it_can_get_information_from_the_responser

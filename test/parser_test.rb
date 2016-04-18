@@ -75,30 +75,6 @@ Origin: 127.0.0.1
 Accept: text/html", parser.parse_response(sample_lines)
   end
 
-  def test_it_can_say_hello
-    parser = Parser.new
-    parser.parse_response(sample_lines)
-    assert_equal "Hello World 1", parser.hello_response
-  end
-
-  def test_it_can_provide_date_time
-
-    parser = Parser.new
-    parser.parse_response(sample_lines)
-    assert_equal Time.now.strftime('%a, %e %b %Y %H:%M:%S %z'), parser.date_time_response
-  end
-
-  def test_it_cannot_find_word
-    parser = Parser.new
-    parser.parse_response(sample_lines_word_not_valid)
-    assert_equal "WORD is not a known word", parser.word_search_response
-  end
-
-  def test_it_cannot_find_word
-    parser = Parser.new
-    parser.parse_response(sample_lines_word)
-    assert_equal "WORD is a known word", parser.word_search_response
-  end
 
   def sample_lines
     ["GET / HTTP/1.1",
@@ -112,27 +88,4 @@ Accept: text/html", parser.parse_response(sample_lines)
    "Accept-Language: en-US,en;q=0.8"]
   end
 
-  def sample_lines_word
-    ["GET /word_search?word=hello HTTP/1.1",
-   "Host: 127.0.0.1:9292",
-   "Connection: keep-alive",
-   "Cache-Control: max-age=0",
-   "Accept: text/html",
-   "Upgrade-Insecure-Requests: 1",
-   "User-Agent: Mozilla/5.0",
-   "Accept-Encoding: gzip, deflate, sdch",
-   "Accept-Language: en-US,en;q=0.8"]
-  end
-
-  def sample_lines_word_not_valid
-    ["GET /word_search?word=heeellllloooo HTTP/1.1",
-   "Host: 127.0.0.1:9292",
-   "Connection: keep-alive",
-   "Cache-Control: max-age=0",
-   "Accept: text/html",
-   "Upgrade-Insecure-Requests: 1",
-   "User-Agent: Mozilla/5.0",
-   "Accept-Encoding: gzip, deflate, sdch",
-   "Accept-Language: en-US,en;q=0.8"]
-  end
 end
