@@ -7,9 +7,11 @@ require './lib/parser'
 require 'pry'
 
 class ParserTest < Minitest::Test
+  def setup
+    @parser= Parser.new(sample_lines)
+  end
 
   def test_it_can_create_a_hash_from_request_lines
-    parser = Parser.new
     lines = {"Host"=>"127.0.0.1:9292",
  "Connection"=>"keep-alive",
  "Cache-Control"=>"max-age=0",
@@ -18,63 +20,43 @@ class ParserTest < Minitest::Test
  "User-Agent"=>"Mozilla/5.0",
  "Accept-Encoding"=>"gzip, deflate, sdch",
  "Accept-Language"=>"en-US,en;q=0.8"}
-    parser.parse_response(sample_lines)
-    assert_equal lines, parser.convert_lines_to_hash
+    assert_equal lines, @parser.create_hash
+  end
+
+  def test_it_can_parse_the_first_line
+    assert_equal "GET", @parser.parse_first_line["Verb"]
+    assert_equal "/", @parser.parse_first_line["Path"]
+    assert_equal "HTTP/1.1", @parser.parse_first_line["Protocol"]
+
   end
 
   def test_it_can_get_the_verb
-    parser = Parser.new
-    parser.parse_response(sample_lines)
-    assert_equal "GET", parser.get_verb
+    assert_equal "GET", @parser.get_verb
   end
 
   def test_it_can_get_the_path
-    parser = Parser.new
-    parser.parse_response(sample_lines)
-    assert_equal "/", parser.get_path
+    assert_equal "/", @parser.get_path
   end
 
   def test_it_can_get_the_protocol
-    parser = Parser.new
-    parser.parse_response(sample_lines)
-    assert_equal "HTTP/1.1", parser.get_protocol
+    assert_equal "HTTP/1.1", @parser.get_protocol
   end
 
   def test_it_can_get_the_host
-    parser = Parser.new
-    parser.parse_response(sample_lines)
-    assert_equal "127.0.0.1", parser.get_host
+    assert_equal "127.0.0.1", @parser.get_host
   end
 
   def test_it_can_get_the_port
-    parser = Parser.new
-    parser.parse_response(sample_lines)
-    assert_equal "9292", parser.get_port
+    assert_equal "9292", @parser.get_port
   end
 
   def test_it_can_get_the_origin
-    parser = Parser.new
-    parser.parse_response(sample_lines)
-    assert_equal "127.0.0.1", parser.get_origin
+    assert_equal "127.0.0.1", @parser.get_origin
   end
 
   def test_it_can_get_the_accept_data
-    parser = Parser.new
-    parser.parse_response(sample_lines)
-    assert_equal "text/html", parser.get_accept
+    assert_equal "text/html", @parser.get_accept
   end
-
-  def test_it_can_parse_the_response
-    parser = Parser.new
-    assert_equal "Verb: GET
-Path: /
-Protocol: HTTP/1.1
-Host: 127.0.0.1
-Port: 9292
-Origin: 127.0.0.1
-Accept: text/html", parser.parse_response(sample_lines)
-  end
-
 
   def sample_lines
     ["GET / HTTP/1.1",
